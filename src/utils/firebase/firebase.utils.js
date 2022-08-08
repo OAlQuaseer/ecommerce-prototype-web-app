@@ -19,14 +19,16 @@ const firebaseConfig = {
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
 
-const provider = new GoogleAuthProvider();
+const googleAuthProvider = new GoogleAuthProvider();
 
-provider.getCustomParameters({
+googleAuthProvider.getCustomParameters({
     prompt: "select_account"
 })
 
+// this auth instance is singleton because it keeps track of the authentication state of the entire application. 
 export const auth = getAuth();
-export const signInWithGooglePopup = () => signInWithPopup(auth, provider);
+export const signInWithGooglePopup = () => signInWithPopup(auth, googleAuthProvider);
+export const signInWithGoogleRedirect = () => signInWithRedirect(auth, googleAuthProvider);
 
 export const db = getFirestore();
 
@@ -55,7 +57,7 @@ export const createUserDocumentFromAuth = async (userAuth) => {
         } catch (error) {
             console.log(error);
         }
-    }else {
+    } else {
         const lastTimeSignedIn = new Date();
         await setDoc(userDocRef, {
             ...userSnapShot.data(),
