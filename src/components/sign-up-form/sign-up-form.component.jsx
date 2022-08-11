@@ -16,7 +16,7 @@ const signUpFormInputFields = {
 const SignUpForm = () => {
     const [inputFields, setInputFields] = useState(signUpFormInputFields);
     const { displayName, email, password, confirmPassword } = inputFields;
-    const {currentUser, setCurrentUser} = useContext(UserContext);
+    const {currentUser} = useContext(UserContext);
 
 
 
@@ -46,9 +46,6 @@ const SignUpForm = () => {
                 ...user,
                 displayName
             })
-            if(userDoc){
-                setCurrentUser(user);
-            }
             resetFormFields();
         }
         catch (error) {

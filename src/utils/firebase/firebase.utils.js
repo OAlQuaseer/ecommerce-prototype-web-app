@@ -8,7 +8,7 @@ import { getAuth, signInWithPopup,
     GoogleAuthProvider, 
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword,
-    signOut } from 'firebase/auth';
+    signOut, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
 
 // Your web app's Firebase configuration
@@ -89,4 +89,7 @@ export const signOutCurrentUser = async () => {
     const response = await signOut(auth);
     return response;
 }
+
+export const onAuthStateChangedListener = callback => onAuthStateChanged(auth, callback)
+
 
