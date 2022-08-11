@@ -1,8 +1,9 @@
 import './sign-up-form.styles.scss'
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { createAuthUserWithEmailAndPassword, createUserDocumentFromAuth } from './../../utils/firebase/firebase.utils';
 import FormInput from './../form-input/form-input.component';
 import Button from './../button/button.component';
+import { UserContext } from '../../contexts/user.context';
 
 //initial values of the fields 
 const signUpFormInputFields = {
@@ -15,6 +16,9 @@ const signUpFormInputFields = {
 const SignUpForm = () => {
     const [inputFields, setInputFields] = useState(signUpFormInputFields);
     const { displayName, email, password, confirmPassword } = inputFields;
+    const {currentUser, setCurrentUser} = useContext(UserContext);
+
+
 
     const onChangeHandler = ({ target: { name, value } }) => {
         setInputFields({
@@ -42,6 +46,9 @@ const SignUpForm = () => {
                 ...user,
                 displayName
             })
+            if(userDoc){
+                setCurrentUser(user);
+            }
             resetFormFields();
         }
         catch (error) {

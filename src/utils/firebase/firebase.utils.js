@@ -3,7 +3,12 @@ import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-import { getAuth, signInWithPopup, signInWithRedirect, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithPopup, 
+    signInWithRedirect, 
+    GoogleAuthProvider, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword,
+    signOut } from 'firebase/auth';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore'
 
 // Your web app's Firebase configuration
@@ -38,10 +43,8 @@ export const createUserDocumentFromAuth = async (userAuth) => {
 
     const userDocRef = doc(db, 'users', userAuth.uid);
 
-    console.log(userDocRef)
 
     const userSnapShot = await getDoc(userDocRef);
-    console.log(userSnapShot.exists());
 
     if (!userSnapShot.exists()) {
         const { displayName, email } = userAuth;
@@ -80,5 +83,10 @@ export const signInUserWithEmailAndPassword = async (email, password)=> {
     if (!email || !password) return;
     const userCredential = await signInWithEmailAndPassword(auth, email,password);
     return userCredential;
+}
+
+export const signOutCurrentUser = async () => {
+    const response = await signOut(auth);
+    return response;
 }
 
